@@ -44,39 +44,47 @@ class _WordPageState extends State<WordPage> {
           title: Text('${widget.word} Details'),
           actions: [
             BlocProvider(
-                create: (context) => favoriteBloc,
-                child: BlocConsumer<FavoriteWordsBloc, FavoriteWordsState>(
-                    listener: (context, state) {
-                  if (state is FavoriteWordSavedSuccess) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Word added to favorites')),
-                    );
+              create: (context) => favoriteBloc,
+              child: BlocConsumer<FavoriteWordsBloc, FavoriteWordsState>(
+                listener: (context, state) {
+                  if (state is FavoriteWordSavedSuccess ||
+                      state is FavoriteWordDeletedSuccess) {
                     setState(() {
-                      widget.isFavorite = true;
+                      widget.isFavorite =
+                          state is FavoriteWordSavedSuccess ? true : false;
                     });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          state is FavoriteWordSavedSuccess
+                              ? 'Word added to favorites'
+                              : 'Word deleted from favorites',
+                        ),
+                      ),
+                    );
                   }
-                  if (state is FavoriteWordDeletedSuccess) {
-                    if (state is FavoriteWordSavedSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Word deleted from favorites')),
-                      );
-                      setState(() {
-                        widget.isFavorite = false;
-                      });
-                    }
-                  }
-                }, builder: (context, state) {
+                },
+                builder: (context, state) {
                   return IconButton(
                     icon: Icon(
-                      state is IsFavoriteState ? Icons.star : Icons.star_border,
+                      widget.isFavorite == true
+                          ? Icons.star
+                          : Icons.star_border,
                       color: Colors.amber,
                     ),
                     onPressed: () {
-                      favoriteBloc.add(AddToFavoritesEvent(word: widget.word));
+                      if (widget.isFavorite == true) {
+                        favoriteBloc
+                            .add(DeleteFromFavoritesEvent(word: widget.word));
+                      } else {
+                        favoriteBloc
+                            .add(AddToFavoritesEvent(word: widget.word));
+                      }
                     },
                   );
-                })),
+                },
+              ),
+            ),
           ],
         ),
         body: BlocProvider(

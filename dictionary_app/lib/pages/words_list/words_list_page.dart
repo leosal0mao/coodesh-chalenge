@@ -78,6 +78,8 @@ class _WordsListPageState extends State<WordsListPage> {
                       itemBuilder: (context, index) {
                         final word =
                             state.data[index].values.elementAt(1).toString();
+                        final isFavorite =
+                            state.data[index].values.elementAt(2).toString();
                         return WordListTile(
                           title: word,
                           word: word,
@@ -85,7 +87,7 @@ class _WordsListPageState extends State<WordsListPage> {
                             Navigator.pushNamed(
                               context,
                               '/wordPage',
-                              arguments: word,
+                              arguments: [word, isFavorite],
                             );
                           },
                         );

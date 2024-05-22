@@ -30,30 +30,12 @@ class _FavoriteWordsPageState extends State<FavoriteWordsPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> filteredWords = [];
-
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
       child: BlocProvider(
         create: (context) => favoritewordsBloc,
         child: Column(
           children: [
-            TextField(
-              onChanged: (value) {
-                // filteredWords = snapshot.data!.where((word) {
-                //   return word['word']
-                //       .toLowerCase()
-                //       .contains(value.toLowerCase());
-                // }).toList();
-              },
-              decoration: InputDecoration(
-                labelText: 'Search word',
-                hintText: 'Enter a word',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                ),
-              ),
-            ),
             Expanded(
               child: BlocBuilder<FavoriteWordsBloc, FavoriteWordsState>(
                 builder: (context, state) {
@@ -72,24 +54,35 @@ class _FavoriteWordsPageState extends State<FavoriteWordsPage> {
                   }
 
                   if (state is FavoriteWordsSuccess) {
-                    return ListView.builder(
-                      itemCount: state.data.length,
-                      itemBuilder: (context, index) {
-                        final word =
-                            state.data[index].values.elementAt(1).toString();
-                        return WordListTile(
-                          title: word,
-                          word: word,
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/wordPage',
-                              arguments: word,
-                            );
-                          },
-                        );
-                      },
-                    );
+                    return state.data.length > 0
+                        ? ListView.builder(
+                            itemCount: state.data.length,
+                            itemBuilder: (context, index) {
+                              final word = state.data[index].values
+                                  .elementAt(1)
+                                  .toString();
+                              final isFavorite = state.data[index].values
+                                  .elementAt(2)
+                                  .toString();
+                              return WordListTile(
+                                title: word,
+                                word: word,
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/wordPage',
+                                    arguments: [word, isFavorite],
+                                  );
+                                },
+                              );
+                            },
+                          )
+                        : const Center(
+                            child: Text(
+                                'There is no words added to your favourites.',
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.center),
+                          );
                   }
                   return const Center(child: CircularProgressIndicator());
                 },

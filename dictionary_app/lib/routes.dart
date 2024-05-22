@@ -11,11 +11,17 @@ final routes = {
   '/': (context) => HomePage(repository: getIt.get<WordsRepository>()),
   '/wordsList': (context) => const WordsListPage(),
   '/wordPage': (context) {
-    final word = ModalRoute.of(context)?.settings.arguments as String;
+    // final word = ModalRoute.of(context)?.settings.arguments as String;
+    final arguments =
+        ModalRoute.of(context)?.settings.arguments as List<dynamic>;
+
+    final String word = arguments[0];
+    final String isFavorite = arguments[1];
+    final bool booleanFavorite = isFavorite == '1' ? true : false;
 
     return WordPage(
       word: word,
-      isFavorite: false,
+      isFavorite: booleanFavorite,
     );
   },
   '/wordHistory': (context) => const WordHistoryPage(),
