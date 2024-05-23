@@ -35,6 +35,7 @@ class _FavoriteWordsPageState extends State<FavoriteWordsPage> {
       child: BlocProvider(
         create: (context) => favoritewordsBloc,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
               child: BlocBuilder<FavoriteWordsBloc, FavoriteWordsState>(

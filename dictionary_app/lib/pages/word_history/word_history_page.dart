@@ -49,7 +49,7 @@ class _WordsHistoryPageState extends State<WordHistoryPage> {
                 // }).toList();
               },
               decoration: InputDecoration(
-                labelText: 'Search word',
+                labelText: 'Words history',
                 hintText: 'Enter a word',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25.0),
@@ -90,7 +90,7 @@ class _WordsHistoryPageState extends State<WordHistoryPage> {
                             Navigator.pushNamed(
                               context,
                               '/wordPage',
-                              arguments: word,
+                              arguments: [word, '0'],
                             );
                           },
                         );
