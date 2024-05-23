@@ -40,22 +40,11 @@ class _WordsHistoryPageState extends State<WordHistoryPage> {
         create: (context) => wordHistoryBloc,
         child: Column(
           children: [
-            TextField(
-              onChanged: (value) {
-                // filteredWords = snapshot.data!.where((word) {
-                //   return word['word']
-                //       .toLowerCase()
-                //       .contains(value.toLowerCase());
-                // }).toList();
-              },
-              decoration: InputDecoration(
-                labelText: 'Words history',
-                hintText: 'Enter a word',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                ),
-              ),
+            const Text(
+              'History page',
+              style: TextStyle(fontSize: 26, color: Colors.white),
             ),
+            const Divider(),
             Expanded(
               child: BlocBuilder<WordHistoryBloc, WordHistoryState>(
                 builder: (context, state) {

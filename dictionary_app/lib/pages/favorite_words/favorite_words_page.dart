@@ -37,6 +37,11 @@ class _FavoriteWordsPageState extends State<FavoriteWordsPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text(
+              'Favorites Page',
+              style: TextStyle(fontSize: 26, color: Colors.white),
+            ),
+            const Divider(),
             Expanded(
               child: BlocBuilder<FavoriteWordsBloc, FavoriteWordsState>(
                 builder: (context, state) {
